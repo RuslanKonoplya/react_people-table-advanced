@@ -36,64 +36,71 @@ export const PeoplePage = () => {
       );
     }
 
+    if (currentCenturies.length > 0) {
+      filtered = filtered.filter(person => {
+        if (!person.born || !person.died) {
+          return false;
+        }
 
-if (currentCenturies.length > 0) {
-  filtered = filtered.filter((person) => {
-    if (!person.born || !person.died) return false;
+        const centuryBorn = Math.ceil(person.born / 100);
+        const centuryDied = Math.ceil(person.died / 100);
 
-    const centuryBorn = Math.ceil(person.born / 100);
-    const centuryDied = Math.ceil(person.died / 100);
+        for (let c = centuryBorn; c <= centuryDied; c++) {
+          if (currentCenturies.includes(c.toString())) {
+            return true;
+          }
+        }
 
-
-    for (let c = centuryBorn; c <= centuryDied; c++) {
-      if (currentCenturies.includes(c.toString())) {
-        return true;
-      }
-    }
-
-    return false;
-  });
-}
-
-
-    if (curentSort === 'name') {
-      filtered.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
-
-    }
-
-
-    if (curentSort === 'name' && curentOrder === 'desc') {
-      filtered.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())).reverse();
+        return false;
+      });
     }
 
 
 
-    if (curentSort === 'sex') {
-      filtered.sort((a, b) => a.sex.localeCompare(b.sex));
+
+    switch (curentSort) {
+
+
+      case 'name':
+
+        filtered.sort((a, b) =>
+          a.name.toLowerCase().localeCompare(b.name.toLowerCase()),
+        );
+
+        break;
+
+
+
+
+      case 'sex':
+        filtered.sort((a, b) => a.sex.localeCompare(b.sex));
+
+        break;
+
+      case 'born':
+        filtered.sort((a, b) => a.born - b.born);
+
+        break;
+
+      case 'died':
+
+        filtered.sort((a, b) => a.died - b.died);
+
+        break;
+
+
+
+
+
+
     }
 
 
-    if (curentSort === 'sex' && curentOrder === 'desc') {
-       filtered.sort((a, b) => b.sex.localeCompare(a.sex));
-    }
 
+    if (curentOrder === 'desc') {
+      filtered.reverse()
+    };
 
-    if (curentSort === 'born') {
-      filtered.sort((a,b) => a.born - b.born)
-    }
-
-    if (curentSort === 'born' && curentOrder === 'desc') {
-      filtered.sort((a,b) => b.born - a.born)
-    }
-
-
-    if (curentSort === 'died') {
-      filtered.sort((a,b) => a.born - b.born)
-    }
-
-    if (curentSort === 'died' && curentOrder === 'desc') {
-      filtered.sort((a,b) => b.born - a.born)
-    }
 
 
     return filtered;
@@ -134,18 +141,14 @@ if (currentCenturies.length > 0) {
                     <p data-cy="noPeopleMessage">
                       There are no people on the server
                     </p>
-
                   </>
                 ) : prepared.length !== 0 ? (
                   <PeopleTable people={prepared} />
-                      ) : (
-                        <p>
-                      There are no people matching the current search criteria
-                    </p>
-                  )
-
-
-                  }
+                ) : (
+                  <p>
+                    There are no people matching the current search criteria
+                  </p>
+                )}
               </div>
             </div>
           </div>

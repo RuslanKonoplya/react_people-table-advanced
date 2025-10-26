@@ -61,7 +61,7 @@ export const PeopleTable: FC<Props> = ({ people }) => {
   }
 
 
-  const togleBorn = () => {
+  const toggleBorn = () => {
 
     if (curentSort === 'born' && curentOrder === 'desc') {
       return {sort: null , order : null}
@@ -152,7 +152,7 @@ export const PeopleTable: FC<Props> = ({ people }) => {
             <span className="is-flex is-flex-wrap-nowrap">
               Born
               <SearchLink
-                params={togleBorn()}
+                params={toggleBorn()}
               >
                 <span className="icon">
                   <i className={`fas ${

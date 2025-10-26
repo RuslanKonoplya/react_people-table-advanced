@@ -4,9 +4,12 @@ import { useState } from 'react';
 import classNames from 'classnames';
 
 export const PeopleFilters = () => {
-  const [searchinput, setSearchInput] = useState('');
 
   const [searchParams, setSearchParams] = useSearchParams();
+  const [searchinput, setSearchInput] = useState(searchParams.get('query') || '');
+
+
+
 
   const sex = searchParams.get('sex');
 
@@ -41,7 +44,7 @@ export const PeopleFilters = () => {
   const resetFilters = () => {
     setSearchParams({});
     setSearchInput('');
-    searchParams.delete('century');
+
   };
 
   return (
@@ -49,10 +52,7 @@ export const PeopleFilters = () => {
       <p className="panel-heading">Filters</p>
 
       <p className="panel-tabs" data-cy="SexFilter">
-        <SearchLink
-          className={!sex ? 'is-active' : ''}
-          params={{ sex: null }}
-        >
+        <SearchLink className={!sex ? 'is-active' : ''} params={{ sex: null }}>
           All
         </SearchLink>
 
@@ -65,7 +65,7 @@ export const PeopleFilters = () => {
 
         <SearchLink
           className={sex === 'f' ? 'is-active' : ''}
-          params={{ sex: 'f' }} 
+          params={{ sex: 'f' }}
         >
           Female
         </SearchLink>
@@ -120,13 +120,12 @@ export const PeopleFilters = () => {
       </div>
 
       <div className="panel-block">
-        <a
+        <button
           className="button is-link is-outlined is-fullwidth"
-          href="#/people"
           onClick={resetFilters}
         >
           Reset all filters
-        </a>
+        </button>
       </div>
     </nav>
   );
